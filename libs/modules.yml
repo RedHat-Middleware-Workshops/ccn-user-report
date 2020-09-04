@@ -1,0 +1,78 @@
+module1:
+  - Module 1 - 2 Getting Started with Application Migration Toolkit
+  - Module 1 - 3 Migrate to JBoss EAP - Logged into CodeReady Workspaces
+  - Module 1 - 3 Migrate to JBoss EAP - Git Clone Completed
+  - Module 1 - 3 Migrate to JBoss EAP - Monolith Build Attempted
+  - Module 1 - 3 Migrate to JBoss EAP - CoolStore project Exists in OpenShift
+  - Module 1 - 3 Migrate to JBoss EAP - CoolStore application successfully deployed on OpenShift
+  - Module 1 - 4 Break Monolith Apart - I - Inventory Build Attempted
+  - Module 1 - 4 Break Monolith Apart - I - inventory-database was deployed.
+  - Module 1 - 4 Break Monolith Apart - I - inventory application was deployed to OpenShift.
+  - Module 1 - 4 Break Monolith Apart - I - inventory application is accessible from the browser.
+  - Module 1 - 4 Break Monolith Apart - II - catalog-database was deployed.
+  - Module 1 - 4 Break Monolith Apart - II - catalog application is accessible from the browser.
+module2:
+  - Module 2 - 1 Your Workshop Environment
+  - Module 2 - 2 Advanced Cloud-Native Services - Logged into CodeReady Workspaces
+  - Module 2 - 2 Advanced Cloud-Native Services - Git Clone Completed
+  - Module 2 - 2 Advanced Cloud-Native Services - CoolStore application successfully deployed on OpenShift
+  - Module 2 - 2 Advanced Cloud-Native Services - inventory application is accessible from the browser.
+  - Module 2 - 2 Advanced Cloud-Native Services - catalog application is accessible from the browser.
+  - Module 2 - 2 Advanced Cloud-Native Services - CoolStore project Exists in OpenShift
+  - Module 2 - 3 - Implementing Continuous Delivery - monolith-pipeline has been staged
+  - Module 2 - 3 Advanced Cloud-Native Services - Jenkins ephemeral Container has started.
+  - Module 2 - 3 - Implementing Continuous Delivery - monolith-pipeline First pipeline build  Completed
+  - Module 2 - 4 Debugging Applications - Inventory Build Attempted
+  - Module 2 - 5 Application Monitoring  - userX-monitoring project Exists in OpenShift
+  - Module 2 - 5 Application Monitoring - jaeger-all-in-one-inmemory deployed.
+  - Module 2 - 5 Application Monitoring - prometheus container was deployed.
+  - Module 2 - 5 Application Monitoring - prometheus application is accessible from the browser.
+  - Module 2 - 5 Application Monitoring - grafana container was deployed.
+  - Module 2 - 5 Application Monitoring - grafana application is accessible from the browser.
+  - Module 2 - 5 - Application Monitoring - prometheus-config created.
+module3:
+  - Module 3 - 1 Your Workshop Environment
+  - Module 3 - 2 Getting Started with Service Mesh - Logged into CodeReady Workspaces
+  - Module 3 - 2 Getting Started with Service Mesh - Git Clone Completed
+  - Module 3 - 3 Creating Distributed Services - details-v1 container was deployed.
+  - Module 3 - 3 Creating Distributed Services - productpage-v1 container was deployed.
+  - Module 3 - 3 Creating Distributed Services - ratings-v1 container was deployed.
+  - Module 3 - 3 Creating Distributed Services - reviews-v1 container was deployed.
+  - Module 3 - 3 Creating Distributed Services - reviews-v2 container was deployed.
+  - Module 3 - 3 Creating Distributed Services - reviews-v3 container was deployed.
+  - Module 3 - 3 Creating Distributed Services - details destinationrules was deployed.
+  - Module 3 - 3 Creating Distributed Services - productpage destinationrules was deployed.
+  - Module 3 - 3 Creating Distributed Services - ratings destinationrules was deployed.
+  - Module 3 - 3 Creating Distributed Services - reviews destinationrules was deployed.
+  - Module 3 - 3 Creating Distributed Services - bookinfo productpage  is accessible from the browser.
+  - Module 3 - 4 - Service Visualization and Monitoring - bookinfo virtualservices was deployed.
+  - Module 3 - 4 - Service Visualization and Monitoring - details virtualservices was deployed.
+  - Module 3 - 4 - Service Visualization and Monitoring - productpage virtualservices was deployed.
+  - Module 3 - 4 - Service Visualization and Monitoring - ratings virtualservices was deployed.
+  - Module 3 - 4 - Service Visualization and Monitoring - reviews virtualservices was deployed.
+  - Module 3 - 5 - Advanced Service Mesh Development - inventory-database was deployed.
+  - Module 3 - Advanced Service Mesh Development - inventory application was deployed to OpenShift.
+  - Module 3 - Advanced Service Mesh Development - catalog-database was deployed.
+  - Module 3 - Advanced Service Mesh Development  - catalog-springboot application was deployed.
+  - Module 3 - 5 - Advanced Service Mesh Development - inventory-database sidecar-injected was injected.
+  - Module 3 - 5 - Advanced Service Mesh Development - inventory application sidecar-injected was injected.
+  - Module 3 - 5 - Advanced Service Mesh Development - catalog-database sidecar-injected was injected.
+  - Module 3 - 5 - Advanced Service Mesh Development - catalog-springboot application sidecar-injected was injected.
+  - Module 3 - 5 - Advanced Service Mesh Development - catalog virtualservices was deployed.
+  - Module 3 - 5 - Advanced Service Mesh Development - userX-rhsso  project Exists in OpenShift
+  - Module 3 - 5 - Advanced Service Mesh Development - catalog service  is accessible from the browser and sso is configured.
+module4:
+  - Module 4 - 1 Your Workshop Environment
+  - Module 4 - 2 Cloud Native Application Architectures - Logged into CodeReady Workspaces
+  - Module 4 - 3 - Creating High-performing Cacheable Services - inventory-database was deployed.
+  - Module 4 - 3 - Creating High-performing Cacheable Services - inventory application was deployed to OpenShift.
+  - Module 4 - 3 - Creating High-performing Cacheable Services - catalog-database was deployed.
+  - Module 4 - 3 - Creating High-performing Cacheable Services - catalog application was deployed to OpenShift.
+  - Module 4 - 3 - Creating High-performing Cacheable Services - datagrid-service was deployed.
+  - Module 4 - 3 - Creating High-performing Cacheable Services - cart application was deployed to OpenShift.
+  - Module 4 - 3 - Creating High-performing Cacheable Services - coolstore application is accessible from the browser.
+  - Module 4 - 4 - Creating Event-Driven Services - cart application was deployed to OpenShift.
+  - Module 4 - 4 - Creating Event-Driven Services - orders kafka topic exists.
+  - Module 4 - 4 - Creating Event-Driven Services - payments kafka topic exists.
+  - Module 4 - 5 - Evolving to Serverless Services - spring-petclinic pipeline  was attempted.
+  - Module 4 - 5 - Evolving to Serverless Services - spring-petclinic application was deployed to OpenShift.

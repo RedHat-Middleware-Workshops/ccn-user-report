@@ -1,0 +1,234 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "image.openshift.io/v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "labels": {
+          "app": "ccn-user-report",
+          "app.kubernetes.io/component": "ccn-user-report",
+          "app.kubernetes.io/instance": "ccn-user-report",
+          "app.kubernetes.io/part-of": "ccn-user-report-app"
+        },
+        "managedFields": null,
+        "name": "ccn-user-report",
+        "namespace": "ccn-user-report"
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": {
+              "openshift.io/generated-by": "OpenShiftWebConsole",
+              "openshift.io/imported-from": "quay.io/takinosh/ccn-user-report:latest"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "quay.io/takinosh/ccn-user-report:latest"
+            },
+            "generation": 4,
+            "importPolicy": {
+            },
+            "name": "latest",
+            "referencePolicy": {
+              "type": "Source"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "apps.openshift.io/v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "openshift.io/generated-by": "OpenShiftWebConsole"
+        },
+        "name": "ccn-user-report",
+        "namespace": "ccn-user-report",
+        "labels": {
+          "app": "ccn-user-report",
+          "app.kubernetes.io/component": "ccn-user-report",
+          "app.kubernetes.io/instance": "ccn-user-report",
+          "app.kubernetes.io/part-of": "ccn-user-report-app",
+          "app.openshift.io/runtime-namespace": "ccn-user-report",
+          "manager": "openshift-controller-manager",
+          "operation": "Update"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Rolling",
+          "rollingParams": {
+            "updatePeriodSeconds": 1,
+            "intervalSeconds": 1,
+            "timeoutSeconds": 600,
+            "maxUnavailable": "25%",
+            "maxSurge": "25%"
+          },
+          "resources": {
+          },
+          "activeDeadlineSeconds": 21600
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "ccn-user-report"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "ccn-user-report",
+                "name": "ccn-user-report:latest"
+              },
+              "lastTriggeredImage": "quay.io/takinosh/ccn-user-report:latest"
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "revisionHistoryLimit": 10,
+        "test": false,
+        "selector": {
+          "app": "ccn-user-report",
+          "deploymentconfig": "ccn-user-report"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "ccn-user-report",
+              "deploymentconfig": "ccn-user-report"
+            },
+            "annotations": {
+              "openshift.io/generated-by": "OpenShiftWebConsole"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "ccn-user-report",
+                "image": "quay.io/takinosh/ccn-user-report:latest",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "OPENSHIFT_USERNAME",
+                    "value": "changeuser"
+                  },
+                  {
+                    "name": "OPENSHIFT_PASSWORD",
+                    "value": "changepassword"
+                  },
+                  {
+                    "name": "OPENSHIFT_URL",
+                    "value": "ocp4.example.com"
+                  },
+                  {
+                    "name": "OPENSHIFT_SKIP_TLS",
+                    "value": "true"
+                  },
+                  {
+                    "name": "SKIP_CODE_READY_CHECKS",
+                    "value": "FALSE"
+                  }
+                ],
+                "resources": {
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "Always",
+            "terminationGracePeriodSeconds": 30,
+            "dnsPolicy": "ClusterFirst",
+            "securityContext": {
+            },
+            "schedulerName": "default-scheduler"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "openshift.io/generated-by": "OpenShiftWebConsole"
+        },
+        "labels": {
+          "app": "ccn-user-report",
+          "app.kubernetes.io/component": "ccn-user-report",
+          "app.kubernetes.io/instance": "ccn-user-report",
+          "app.kubernetes.io/part-of": "ccn-user-report-app",
+          "app.openshift.io/runtime-version": "latest"
+        },
+        "name": "ccn-user-report",
+        "namespace": "ccn-user-report"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "5000-tcp",
+            "port": 5000,
+            "protocol": "TCP",
+            "targetPort": 5000
+          }
+        ],
+        "selector": {
+          "app": "ccn-user-report",
+          "deploymentconfig": "ccn-user-report"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "route.openshift.io/v1",
+      "kind": "Route",
+      "metadata": {
+        "annotations": {
+          "openshift.io/host.generated": "true"
+        },
+        "labels": {
+          "app": "ccn-user-report",
+          "app.kubernetes.io/component": "ccn-user-report",
+          "app.kubernetes.io/instance": "ccn-user-report",
+          "app.kubernetes.io/part-of": "ccn-user-report-app",
+          "app.openshift.io/runtime-version": "latest",
+          "manager": "openshift-router",
+          "operation": "Update"
+        },
+        "name": "ccn-user-report",
+        "namespace": "ccn-user-report"
+      },
+      "spec": {
+        "port": {
+          "targetPort": "5000-tcp"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "ccn-user-report",
+          "weight": 100
+        },
+        "wildcardPolicy": "None"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": "",
+    "selfLink": ""
+  }
+}

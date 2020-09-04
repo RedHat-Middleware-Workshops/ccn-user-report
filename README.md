@@ -1,5 +1,7 @@
 # CCN User Report 
 
+![Landing Page](images/landingpage.png)
+
 ## Local Deployment 
 
 ### Build and Push this as an Image
@@ -8,7 +10,7 @@ A *scripts/* directory includes *build* and *push* scripts to create a build
 using the docker CLI, and push it to [quay.io](https;//quay.io).
 
 
-Sample usage:
+**Sample usage:**
 
 ```bash
 # This can take a while depending on your connection speed and machine specs
@@ -19,12 +21,12 @@ TAG=v0.0.8 ./scripts/image.build.sh
 QUAY_USER=your-username TAG=v0.0.8 ./scripts/image.push.sh
 ```
 
-### Run image locally 
+**Run image locally**
 ```
 docker run -d -p 5000:5000 --name ccn-user-report ccn-user-report:v0.0.8
 ```
 
-### Local deployment
+### Local Testing and Development endpoints
 
 **1. Generate Users**  
 Open Web browser and navigate to url. 
@@ -59,30 +61,28 @@ oc login
 oc new-project ccn-user-report
 ```
 
-### Populate OpenShift Endpoint  
+**Populate OpenShift Endpoint**  
 ```
 OPENSHIFT_ENDPOINT="cluster-4ac8.cluster-4ac8.sandbox1288.opentlc.com"
 sed -i -e "s/ocp4.example.com/${OPENSHIFT_ENDPOINT}/" openshift/project.yml  
 ```
-### Populate OpenShift UserName  
+**Populate OpenShift UserName**  
 ```
 OPENSHIFT_USERNAME="myuser"
 sed -i -e "s/changeuser/${OPENSHIFT_USERNAME}/" openshift/project.yml  
 ```
-### Populate OpenShift password  
+**Populate OpenShift password**  
 ```
 POPULATE_OPENSHIFT_PASSWORD="0123456789"
 sed -i -e "s/changepassword/${POPULATE_OPENSHIFT_PASSWORD}/" openshift/project.yml  
 ```
 
-### Deploy CCN User Report  
+**Deploy CCN User Report**  
 ```
 oc create -f openshift/project.yml  
 ```
 
-## How to Use  
-![Landing Page](images/landingpage.png)
-
+## OpenShift Usage 
 **Export route**  
 ```
 export URL_ENDPOINT=$(oc get route | grep user-report | awk '{print $2}')
