@@ -13,103 +13,86 @@ using the docker CLI, and push it to [quay.io](https;//quay.io).
 **Sample usage:**
 
 ```bash
-# This can take a while depending on your connection speed and machine specs
-TAG=v0.0.8 ./scripts/image.build.sh 
+$ # This can take a while depending on your connection speed and machine specs
+$ TAG=v0.0.8 ./scripts/image.build.sh 
 
-# Pushes the image to quay.io for the specified user.
-# This is bound by your upload speed...so be patient ☕
-QUAY_USER=your-username TAG=v0.0.8 ./scripts/image.push.sh
+$ # Pushes the image to quay.io for the specified user.
+$ # This is bound by your upload speed...so be patient ☕
+$ QUAY_USER=your-username TAG=v0.0.8 ./scripts/image.push.sh
 ```
+
+The scripts which check for the Kubernetes objects require a set of environment variables in order to find the OpenShift cluster to check against. The following example runs the image on a development machine with the corrent environment variables set.
 
 **Run image locally**
 ```
-docker run -d -p 5000:5000 --name ccn-user-report ccn-user-report:v0.0.8
+$ docker run -d -p 5000:5000 --name ccn-user-report \
+  -e OPENSHIFT_USERNAME=opentlc-mgr \
+  -e OPENSHIFT_PASSWORD=password \
+  -e OPENSHIFT_URL=https://api.cluster-GUID.GUID.sandbox1553.opentlc.com:6443/ \
+  -e OPENSHIFT_SKIP_TLS=true \
+  ccn-user-report:v0.0.8
 ```
 
 ### Local Testing and Development endpoints
 
-**1. Generate Users**  
-Open Web browser and navigate to url. 
+There are three steps to generating a report or set of reports of user progress through a containers and cloud native workshop.
 
-```
-localhost:5000/user_generator
-```
+First, we generate a list of users to check against. There's a link to the list generator on the index page or you can navigate to [http://localhost:5000/user_generator](http://localhost:5000/user_generator) to generate the list. Enter the number of users that you're going to check against.
 
-**2. Check user Progress**  
-```
-http://localhost:5000/user_progress
-```
+Once the userlist is populated, you can launch a progress check from the [http://localhost:5000/user_progress](http://localhost:5000/user_progress) page. These checks can take a few minutes to run and the web service will not allow more than one to run simultaneously. As the progress checks run, they populate files on the local filesystem with the status of the user's progress.
 
-**3. Check user Report**  
-```
-http://localhost:5000/print_user_report
-```
+You can either check a particular user's progress (i.e. 6 for user6) or you can check the progress of all the users from the userlist generated in the first step. To check all users, enter "0" in the box instead of the user number.
 
-**4. Download CSV file via cli**  
-```
-curl -o my_report.csv --location --request GET 'http://localhost:5000/export_csv/module1'
-```
+Finally, once the status cache is generated, reports can be run against the cached progress data. Reports can be printed to the screen or downloaded in CSV or JSON format.
 
-**5. Download JSON file via cli**  
+* Check user Report
+[http://localhost:5000/print_user_report](http://localhost:5000/print_user_report)
+* Download CSV file via cli
 ```
-curl -o my_report.json --location --request GET 'http://localhost:5000/export_json/module1'
+$ curl -o my_report.csv --location --request GET 'http://localhost:5000/export_csv/module1'
+```
+* Download JSON file via cli
+```
+$ curl -o my_report.json --location --request GET 'http://localhost:5000/export_json/module1'
 ```
 
 ## Deploy using OC CLI  
+
+1) First, a project for the user report service to run in.
+
 ```
-oc login
-oc new-project ccn-user-report
+$ oc new-project ccn-user-report
 ```
 
-**Populate OpenShift Endpoint**  
+2) The service uses a set of environment variables to determine the OpenShift endpoint to check against. The following examples can be used for a cluster deployed with RHPDS.
+
 ```
-OPENSHIFT_ENDPOINT="cluster-4ac8.cluster-4ac8.sandbox1288.opentlc.com"
-sed -i -e "s/ocp4.example.com/${OPENSHIFT_ENDPOINT}/" openshift/project.yml  
-```
-**Populate OpenShift UserName**  
-```
-OPENSHIFT_USERNAME="myuser"
-sed -i -e "s/changeuser/${OPENSHIFT_USERNAME}/" openshift/project.yml  
-```
-**Populate OpenShift password**  
-```
-POPULATE_OPENSHIFT_PASSWORD="0123456789"
-sed -i -e "s/changepassword/${POPULATE_OPENSHIFT_PASSWORD}/" openshift/project.yml  
+$ OPENSHIFT_URL='https://api.cluster-GUID.GUID.sandbox1553.opentlc.com:6443/'
+$ sed -i -e "s/OPENSHIFT_URL/${OPENSHIFT_URL}/" openshift/project.yml  
+$ OPENSHIFT_USERNAME='opentlc-mgr'
+$ sed -i -e "s/OPENSHIFT_USERNAME/${OPENSHIFT_USERNAME}/" openshift/project.yml  
+$ OPENSHIFT_PASSWORD='password'
+$ sed -i -e "s/OPENSHIFT_PASSWORD/${OPENSHIFT_PASSWORD}/" openshift/project.yml  
 ```
 
-**Deploy CCN User Report**  
+3) Deploy the service using the following DeploymentConfig
 ```
-oc create -f openshift/project.yml  
+$ oc create -f openshift/project.yml  
 ```
 
 ## OpenShift Usage 
-**Export route**  
+Once the application is deployed, it should be available via the OpenShift route created by the [openshift/project.yml](openshift/project.yml) template. To find the route, run:
+
 ```
-export URL_ENDPOINT=$(oc get route | grep user-report | awk '{print $2}')
+$ oc get route | grep user-report | awk '{print $2}'
 ```
 
-**1. Generate Users**  
-Open Web browser and navigate to url. 
-```
-echo http://$URL_ENDPOINT/user_generator
-```
+There are three steps to generating a report or set of reports of user progress through a containers and cloud native workshop.
 
-**2. Check user Progress**  
-```
-echo http://$URL_ENDPOINT/user_progress
-```
+First, we generate a list of users to check against. Either open the route in a web browser and follow the "Generate users" link on the home page, or navigate to http://$ROUTE/user_generator to generate the list. Enter the number of users that you're going to check against.
 
-**3. Check user Report**  
-```
-echo http://$URL_ENDPOINT/print_user_report
-```
+Once the userlist is populated, you can launch a progress check from the "CCN User Progress" link on the home page, or navigate to http://$ROUTE/user_progress. These checks can take a few minutes to run and the web service will not allow more than one to run simultaneously. As the progress checks run, they populate files on the local filesystem with the status of the user's progress.
 
-**4. Download CSV file via cli** 
-```
-curl -o my_report.csv --location --request GET 'http://$URL_ENDPOINT/export_csv/module1'
-```
+You can either check a particular user's progress (i.e. 6 for user6) or you can check the progress of all the users from the userlist generated in the first step. To check all users, enter "0" in the box instead of the user number.
 
-**5. Download JSON file via cli** 
-```
-curl -o my_report.json --location --request GET 'http://$URL_ENDPOINT/export_json/module1'
-```
+Finally, once the status cache is generated, reports can be run against the cached progress data. Reports can be printed to the screen or downloaded in CSV or JSON format. Links to the various reports are available on the top navigation of the tool.
