@@ -88,11 +88,11 @@ items:
                 protocol: TCP
             env:
               - name: OPENSHIFT_USERNAME
-                value: changeuser
+                value: OPENSHIFT_USERNAME
               - name: OPENSHIFT_PASSWORD
-                value: changepassword
+                value: OPENSHIFT_PASSWORD
               - name: OPENSHIFT_URL
-                value: 'ocp4.example.com'
+                value: OPENSHIFT_URL
               - name: OPENSHIFT_SKIP_TLS
                 value: 'true'
               - name: SKIP_CODE_READY_CHECKS
