@@ -1,9 +1,9 @@
 function module3-started(){
     MODULE3_GUIDE=$(oc get pods -n labs-infra | grep guides-m3-  | grep -v 'deploy\|build' | awk '{print $1}')
     USERNAME=${1}
-    echo -e ${MODULE3_GUIDE}
-    oc logs ${MODULE3_GUIDE} -n labs-infra | grep -o ${USERNAME} | tee ~/tmp/result.log
-    if cat ~/tmp/result.log | grep -q "${USERNAME}"
+    #echo -e ${MODULE3_GUIDE}
+    oc logs ${MODULE3_GUIDE} -n labs-infra | grep -w -o ${USERNAME} > ~/tmp/result.log
+    if cat ~/tmp/result.log | grep -w -q "${USERNAME}"
     then
       echo -e "\e[0;32m${USERNAME} has started Module 3 - 1 Your Workshop Environment\e[0m"
       update-report  ${USERNAME}  "Module 3 - 1 Your Workshop Environment"  "TRUE"
@@ -23,7 +23,7 @@ function istio-destinationrules-check(){
 
   container-input-check ${USERNAME} ${CONTAINER} ${NAMESPACE} ${MESSAGE}
   
-  oc get destinationrules -n  ${NAMESPACE} | grep -E ${CONTAINER} | tee  ~/tmp/result.log 
+  oc get destinationrules -n  ${NAMESPACE} | grep -E ${CONTAINER} > ~/tmp/result.log 
   if cat ~/tmp/result.log | grep  -q "${CONTAINER}"
   then
     echo -e "\e[0;32m${USERNAME} has completed  ${MESSAGE}\e[0m"
@@ -44,7 +44,7 @@ function istio-virtualservices-check(){
 
   container-input-check ${USERNAME} ${CONTAINER} ${NAMESPACE} ${MESSAGE}
   
-  oc get virtualservices -n  ${NAMESPACE} | grep -E ${CONTAINER} | tee  ~/tmp/result.log 
+  oc get virtualservices -n  ${NAMESPACE} | grep -E ${CONTAINER} > ~/tmp/result.log 
   if cat ~/tmp/result.log | grep  -q "${CONTAINER}"
   then
     echo -e "\e[0;32m${USERNAME} has completed  ${MESSAGE}\e[0m"
@@ -63,7 +63,7 @@ function sidecar-injected(){
   MESSAGE=${4}
 
   container-input-check ${USERNAME} ${CONTAINER} ${NAMESPACE} ${MESSAGE}
-  oc get pods -n ${NAMESPACE} --field-selector="status.phase=Running" | grep ${CONTAINER} | awk '{print $2}'  | tee  ~/tmp/result.log 
+  oc get pods -n ${NAMESPACE} --field-selector="status.phase=Running" | grep ${CONTAINER} | awk '{print $2}' > ~/tmp/result.log 
 
   if cat ~/tmp/result.log | grep  -q "2/2"
   then

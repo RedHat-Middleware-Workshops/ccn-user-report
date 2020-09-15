@@ -11,6 +11,12 @@
          exit
  fi
 
+# Set some environment variables if they're unset
+if [ -z "$SKIP_CODE_READY_CHECKS" ]
+then
+  export SKIP_CODE_READY_CHECKS=FALSE
+fi
+
 source common_functions/module1.sh
 source common_functions/module2.sh
 source common_functions/module3.sh
