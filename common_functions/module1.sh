@@ -20,15 +20,16 @@ function module1-started(){
 }
 
 function codeready-git-clone-status(){
-  CODEREADYLOGIN=$(oc get pods -n labs-infra | grep codeready-  | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
   USERNAME=${1}
   MESSAGE=${2}
   SOURCE_CODE=${3}
-  echo -e ${CODEREADYLOGIN}
+  
+  CODEREADYLOGIN=$(oc get pods -n labs-infra | grep codeready-  | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
   WORKSTATIONID=$(oc logs ${CODEREADYLOGIN}  -n labs-infra | grep ${USERNAME} | grep -o -P 'workspace.[a-z0-9]{15}' | head -1)
-  CODEREADYCONTAINER=$(oc get pods -n labs-infra | grep ${WORKSTATIONID}  | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
-  THEIACONTAINER=$(oc describe pod ${CODEREADYCONTAINER} -n labs-infra | grep -E theia-ide[a-z0-9]{3} | tr -d ":" | head -1 | awk '{print $2}')
-  oc exec -it ${CODEREADYCONTAINER}  -n labs-infra -c ${THEIACONTAINER} ls /projects/${SOURCE_CODE} | tee ~/tmp/result.log
+  CODEREADYNAMESPACE=$(oc get pods --all-namespaces | grep ${WORKSTATIONID}  | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
+  CODEREADYCONTAINER=$(oc get pods --all-namespaces | grep ${WORKSTATIONID}  | grep -v  'deploy\|build|\|operator' | awk '{print $2}')
+  THEIACONTAINER=$(oc describe pod ${CODEREADYCONTAINER} -n ${CODEREADYNAMESPACE} | grep -E theia-ide[a-z0-9]{3} | tr -d ":" | head -1 | awk '{print $2}')
+  oc exec -it ${CODEREADYCONTAINER}  -n ${CODEREADYNAMESPACE} -c ${THEIACONTAINER} -- ls /projects/${SOURCE_CODE} > ~/tmp/result.log
   if cat ~/tmp/result.log | grep -q "README.md"
   then
     echo -e "\e[0;32m${USERNAME} has started ${MESSAGE} - Git Clone Completed\e[0m"
@@ -173,7 +174,7 @@ function container-check(){
    SEARCHVAL="deploy"
   fi 
   
-  oc get pods -n  ${NAMESPACE} | grep -E ${CONTAINER} | grep -v ${SEARCHVAL} | tee  ~/tmp/result.log 
+  oc get pods -n  ${NAMESPACE} | grep -E ${CONTAINER} | grep -v ${SEARCHVAL} > ~/tmp/result.log 
   if cat ~/tmp/result.log | grep  -q "${CONTAINER}"
   then
     echo -e "\e[0;32m${USERNAME} has completed  ${MESSAGE}\e[0m"

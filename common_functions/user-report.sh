@@ -30,7 +30,7 @@ function generate-user-report(){
       cd ..
     fi 
 
-    filename=${PWD}'workspace/userlist'
+    filename=${PWD}'/workspace/userlist'
     while IFS= read -r line
     do
       echo "checking if ${line} report exists"
