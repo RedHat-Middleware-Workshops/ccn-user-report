@@ -208,7 +208,7 @@ function loggedin-to-codeready(){
     CODEREADYLOGIN=$(oc get pods -n labs-infra | grep codeready- | grep -v 'deploy\|build|\|operator'| awk '{print $1}')
     USERNAME=${1}
     MESSAGE=${2}
-     echo -e ${CODEREADYLOGIN}
+    # echo -e ${CODEREADYLOGIN}
     RESULT=$(oc logs ${CODEREADYLOGIN} -n labs-infra | grep -o ${USERNAME} > ~/tmp/result.log)
     if cat ~/tmp/result.log | grep -q "${USERNAME}"
     then
@@ -225,7 +225,7 @@ function project-created(){
     USERNAME=${1}
     PROJECT_NAME=${2}
     MESSAGE=${3}
-    oc get project | grep ${PROJECT_NAME} | tee ~/tmp/result.log
+    oc get project | grep ${PROJECT_NAME} > ~/tmp/result.log
     if cat ~/tmp/result.log | grep  -q "${USERNAME}"
     then
        echo -e "\e[0;32m${USERNAME} has completed  ${MESSAGE}\e[0m"
