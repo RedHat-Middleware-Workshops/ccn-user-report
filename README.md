@@ -64,15 +64,20 @@ $ curl -o my_report.json --location --request GET 'http://localhost:5000/export_
 $ oc new-project ccn-user-report
 ```
 
-2) The service uses a set of environment variables to determine the OpenShift endpoint to check against. The following examples can be used for a cluster deployed with RHPDS.
+2) The service uses a set of environment variables to determine the OpenShift endpoint to check against. Edit ```openshift/project.yml``` and replace the values to match your OpenShift deployment
 
 ```
-$ OPENSHIFT_URL='https://api.cluster-GUID.GUID.sandbox1553.opentlc.com:6443/'
-$ sed -i -e "s/OPENSHIFT_URL/${OPENSHIFT_URL}/" openshift/project.yml  
-$ OPENSHIFT_USERNAME='opentlc-mgr'
-$ sed -i -e "s/OPENSHIFT_USERNAME/${OPENSHIFT_USERNAME}/" openshift/project.yml  
-$ OPENSHIFT_PASSWORD='password'
-$ sed -i -e "s/OPENSHIFT_PASSWORD/${OPENSHIFT_PASSWORD}/" openshift/project.yml  
+            env:
+              - name: OPENSHIFT_USERNAME
+                value: opentlc-mgr
+              - name: OPENSHIFT_PASSWORD
+                value: <your password>
+              - name: OPENSHIFT_URL
+                value: https://api.cluster-<your cluster>.opentlc.com:6443/
+              - name: OPENSHIFT_SKIP_TLS
+                value: 'true'
+              - name: SKIP_CODE_READY_CHECKS
+                value: 'FALSE'
 ```
 
 3) Deploy the service using the following DeploymentConfig
