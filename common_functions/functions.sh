@@ -180,21 +180,23 @@ function run_modules(){
 
   module4)
     module4-started $USER_NAME
-    [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  loggedin-to-codeready $USER_NAME  "Module 4 - 2 Cloud Native Application Architectures"
+    [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  codeready-git-clone-status $USER_NAME  "Module 4 - 2 Cloud Native Application Architectures" "cloud-native-workshop-v2m4-labs"
     container-check $USER_NAME inventory-database ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - inventory-database was deployed."
     container-check $USER_NAME inventory-[0-9] ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - inventory application was deployed to OpenShift." "build\|deploy"
     container-check $USER_NAME catalog-database ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - catalog-database was deployed."
     container-check $USER_NAME catalog-[0-9] ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - catalog application was deployed to OpenShift." "build\|deploy"
     container-check $USER_NAME datagrid-service ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - datagrid-service was deployed."
     container-check $USER_NAME cart-[0-9] ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - cart application was deployed to OpenShift." "build\|deploy"
-    container-check $USER_NAME order-database ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - datagrid-service was deployed."
-    container-check $USER_NAME order-[0-9] ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - cart application was deployed to OpenShift." "build\|deploy"
+    container-check $USER_NAME order-database ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - order-database was deployed."
+    container-check $USER_NAME order-[0-9] ${USER_NAME}-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - order application was deployed to OpenShift." "build\|deploy"
     app-is-accessible-from-browser $USER_NAME $USER_NAME-cloudnativeapps "Module 4 - 3 - Creating High-performing Cacheable Services - coolstore application is accessible from the browser." "coolstore-ui"
-    container-check $USER_NAME my-cluster-kafka-[0-9] ${USER_NAME}-cloudnativeapps "Module 4 - 4 - Creating Event-Driven Services - cart application was deployed to OpenShift." "build\|deploy"
+    container-check $USER_NAME my-cluster-kafka-[0-9] ${USER_NAME}-cloudnativeapps "Module 4 - 4 - Creating Event-Driven Services - kafka cluster was deployed to OpenShift." "build\|deploy"
     validate-kafka-topic $USER_NAME my-cluster-kafka-0 ${USER_NAME}-cloudnativeapps "Module 4 - 4 - Creating Event-Driven Services - orders kafka topic exists." "orders"
     validate-kafka-topic $USER_NAME my-cluster-kafka-0 ${USER_NAME}-cloudnativeapps "Module 4 - 4 - Creating Event-Driven Services - payments kafka topic exists." "payments"
-    pipeline-build-attempted $USER_NAME ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - spring-petclinic pipeline  was attempted." petclinic-deploy-pipeline
-    container-check $USER_NAME spring-petclinic ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - spring-petclinic application was deployed to OpenShift." "build\|deploy"
+    knative-serving-check $USER_NAME payment ${USER_NAME}-cloudnativeapps "Module 4 - 5 - Evolving to Serverless Services - payment knative serving config exists."
+    pipeline-build-attempted $USER_NAME ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - build-and-deploy pipeline  was attempted." build-and-deploy
+    container-check $USER_NAME vote-api ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - vote-api application was deployed to OpenShift." "build\|deploy"
+    container-check $USER_NAME vote-ui ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - vote-ui application was deployed to OpenShift." "build\|deploy"
     ;;
 
   *)

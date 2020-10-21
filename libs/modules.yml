@@ -63,7 +63,7 @@ module3:
   - Module 3 - 5 - Advanced Service Mesh Development - catalog service  is accessible from the browser and sso is configured.
 module4:
   - Module 4 - 1 Your Workshop Environment
-  - Module 4 - 2 Cloud Native Application Architectures - Logged into CodeReady Workspaces
+  - Module 2 - 2 Cloud Native Application Architectures - Git Clone Completed
   - Module 4 - 3 - Creating High-performing Cacheable Services - inventory-database was deployed.
   - Module 4 - 3 - Creating High-performing Cacheable Services - inventory application was deployed to OpenShift.
   - Module 4 - 3 - Creating High-performing Cacheable Services - catalog-database was deployed.
@@ -71,8 +71,10 @@ module4:
   - Module 4 - 3 - Creating High-performing Cacheable Services - datagrid-service was deployed.
   - Module 4 - 3 - Creating High-performing Cacheable Services - cart application was deployed to OpenShift.
   - Module 4 - 3 - Creating High-performing Cacheable Services - coolstore application is accessible from the browser.
-  - Module 4 - 4 - Creating Event-Driven Services - cart application was deployed to OpenShift.
+  - Module 4 - 4 - Creating Event-Driven Services - kafka cluster was deployed to OpenShift.
   - Module 4 - 4 - Creating Event-Driven Services - orders kafka topic exists.
   - Module 4 - 4 - Creating Event-Driven Services - payments kafka topic exists.
-  - Module 4 - 5 - Evolving to Serverless Services - spring-petclinic pipeline  was attempted.
-  - Module 4 - 5 - Evolving to Serverless Services - spring-petclinic application was deployed to OpenShift.
+  - Module 4 - 5 - Evolving to Serverless Services - payment knative serving config exists.
+  - Module 4 - 5 - Evolving to Serverless Services - build-and-deploy pipeline  was attempted.
+  - Module 4 - 5 - Evolving to Serverless Services - vote-api application was deployed to OpenShift.
+  - Module 4 - 5 - Evolving to Serverless Services - vote-ui application was deployed to OpenShift.

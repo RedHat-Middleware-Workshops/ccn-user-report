@@ -14,6 +14,25 @@ function module4-started(){
     rm ~/tmp/result.log
 }
 
+function knative-serving-check (){
+  USERNAME=${1}
+  NAME=${2}
+  NAMESPACE=${3}
+  MESSAGE=${4}
+
+  oc get pods -n  ${NAMESPACE} | grep -E ${NAME} > ~/tmp/result.log 
+  if cat ~/tmp/result.log | grep  -q "${NAME}"
+  then
+    echo -e "\e[0;32m${USERNAME} has completed  ${MESSAGE}\e[0m"
+    update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
+  else
+    echo -e "\e[0;31m${USERNAME} has not completed ${MESSAGE}\e[0m"
+    update-report  ${USERNAME} "${MESSAGE}"  "FALSE"
+  fi
+  rm  ~/tmp/result.log 
+}
+
+
 function validate-kafka-topic(){
   USERNAME=${1}
   CONTAINER=${2}
@@ -22,7 +41,7 @@ function validate-kafka-topic(){
   SEARCHVAL=${5}
 
   
-  oc logs ${CONTAINER} -c kafka -n ${NAMESPACE} | grep ${SEARCHVAL} | tee  ~/tmp/result.log 
+  oc logs ${CONTAINER} -c kafka -n ${NAMESPACE} | grep ${SEARCHVAL} > ~/tmp/result.log 
   if cat ~/tmp/result.log | grep  -q "${SEARCHVAL}"
   then
     echo -e "\e[0;32m${USERNAME} has completed  ${MESSAGE}\e[0m"
@@ -40,7 +59,7 @@ function pipeline-build-attempted(){
   MESSAGE=${3}
   SEARCHVAL=${4}
 
-  oc get pods -n ${NAMESPACE} | grep "${SEARCHVAL}"  | tee  ~/tmp/result.log 
+  oc get pods -n ${NAMESPACE} | grep "${SEARCHVAL}" >  ~/tmp/result.log 
 
   if cat ~/tmp/result.log | grep  -q "${SEARCHVAL}"
   then
