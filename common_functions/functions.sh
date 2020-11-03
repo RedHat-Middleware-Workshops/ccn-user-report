@@ -8,7 +8,6 @@ function userlist(){
     done < $filename
 }
 
-
 function logincheck(){
     if [ "${1}" ];
     then
@@ -197,6 +196,13 @@ function run_modules(){
     pipeline-build-attempted $USER_NAME ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - build-and-deploy pipeline  was attempted." build-and-deploy
     container-check $USER_NAME vote-api ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - vote-api application was deployed to OpenShift." "build\|deploy"
     container-check $USER_NAME vote-ui ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - vote-ui application was deployed to OpenShift." "build\|deploy"
+    ;;
+
+  openshift101)
+    openshift101-started $USER_NAME java
+    openshift101-started $USER_NAME php
+    openshift101-started $USER_NAME python
+    openshift101-started $USER_NAME javascript
     ;;
 
   *)
