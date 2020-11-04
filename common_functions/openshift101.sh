@@ -26,7 +26,7 @@ function openshift101-started(){
         fi
     done
     
-    # Check if file has USERNAME variables defined
+    # Check if file has USERNAME variables defined and update report
     if cat $TFILE | grep -q "${USERNAME}"; then
         if [ "${USERLANG}" = "java" ]; then
             echo -e "\e[0;32m${USERNAME} has started Getting Started with OpenShift - Java edition\e[0m"
@@ -78,8 +78,15 @@ function get-rolebinding() {
     PROJECTNAME=${2}
     MESSAGE=${3}
     SEARCHVAL=${4:-view}
+    DEBUG=false
+    
+    # Get user role bindings
     ROLE=$(oc get rolebindings -n ${PROJECTNAME} | grep ${SEARCHVAL}  | awk '{print $1}')
     
+    # Debug ROLE variable definition
+    [[ "$DEBUG" == true ]] && echo -e ${ROLE}
+    
+    # Check if role bindng was found and update report
     if [ ! -z ${ROLE} ]; then
         echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
         update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
