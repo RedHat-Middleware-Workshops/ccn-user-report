@@ -203,6 +203,11 @@ function run_modules(){
     openshift101-started $USER_NAME php
     openshift101-started $USER_NAME python
     openshift101-started $USER_NAME javascript
+    container-check $USER_NAME parksmap-[0-9] $USER_NAME "Lab 5 - Deploying Your First Container Image" "build\|deploy"
+    app-is-accessible-from-browser $USER_NAME $USER_NAME "Lab 7 - Exposing Your Application to the Outside World" "parksmap"
+    get-rolebinding $USER_NAME $USER_NAME "Lab 9 - Role-Based Access Control" "view"
+    container-check $USER_NAME nationalparks-[0-9] $USER_NAME "Lab 11 - Deploying National Parks Code" "build\|deploy"
+    container-check $USER_NAME mongodb-nationalparks-[0-9] $USER_NAME "Lab 12 - Adding a Database (MongoDB)" "build\|deploy"
     ;;
 
   *)
