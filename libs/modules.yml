@@ -63,7 +63,7 @@ module3:
   - Module 3 - 5 - Advanced Service Mesh Development - catalog service  is accessible from the browser and sso is configured.
 module4:
   - Module 4 - 1 Your Workshop Environment
-  - Module 2 - 2 Cloud Native Application Architectures - Git Clone Completed
+  - Module 4 - 2 Cloud Native Application Architectures - Git Clone Completed
   - Module 4 - 3 - Creating High-performing Cacheable Services - inventory-database was deployed.
   - Module 4 - 3 - Creating High-performing Cacheable Services - inventory application was deployed to OpenShift.
   - Module 4 - 3 - Creating High-performing Cacheable Services - catalog-database was deployed.
@@ -79,24 +79,18 @@ module4:
   - Module 4 - 5 - Evolving to Serverless Services - vote-api application was deployed to OpenShift.
   - Module 4 - 5 - Evolving to Serverless Services - vote-ui application was deployed to OpenShift.
 openshift101:
-  - Lab 0 - Workshop Summary
-  - Lab 1 - Environment Overview
-  - Lab 2 - Using Homeroom
-  - Lab 3 - Architecture Overview of the ParksMap Application
-  - Lab 4 - Exploring the CLI and Web Console 
+  - Lab 0 - Getting Started with OpenShift - Java edition
+  - Lab 0 - Getting Started with OpenShift - Python edition
+  - Lab 0 - Getting Started with OpenShift - Node.js edition
+  - Lab 0 - Getting Started with OpenShift - PHP edition
   - Lab 5 - Deploying Your First Container Image
-  - Lab 6 - Scaling and Self Healing
   - Lab 7 - Exposing Your Application to the Outside World
-  - Lab 8 - Exploring OpenShift's Logging Capabilities
   - Lab 9 - Role-Based Access Control
-  - Lab 10 - Remote Access to Your Application
-  - Lab 11 - Deploying Java/PHP/Python/JavaScript Code
+  - Lab 11 - Deploying National Parks Code
   - Lab 12 - Adding a Database (MongoDB)
-  - Lab 13 - Application Health
-  - Lab 14 - Trigger Automatic Rebuilds on Code Changes 
-  - Lab 15 - Further Resources
-  - Lab 16 - Workshop Links
-  - Lab 17 - Automate Build and Deployment with Pipelines
-  - Lab 18 - Automation for Your Application on Code Changes
-  - Lab 19 - Using Application Templates
-  - Lab 20 - Binary Builds for Day to Day Development
+  # - Lab 13 - Application Health
+  # - Lab 14 - Trigger Automatic Rebuilds on Code Changes
+  # - Lab 17 - Automate Build and Deployment with Pipelines
+  # - Lab 18 - Automation for Your Application on Code Changes
+  # - Lab 19 - Using Application Templates
+  # - Lab 20 - Binary Builds for Day to Day Development
