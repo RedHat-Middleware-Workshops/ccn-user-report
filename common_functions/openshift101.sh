@@ -126,13 +126,13 @@ function get-nationalparks-trigger() {
     SEARCHVAL=${4}
     DEBUG=false
     
-    # Get health check
+    # Get trigger
     TRIGGER=$(oc get dc/nationalparks -n ${PROJECTNAME} -o yaml | grep ${SEARCHVAL} | awk '{print $1}' )
     
-    # Debug HEALTH_CHECK variable definition
+    # Debug TRIGGER variable definition
     [[ "$DEBUG" == true ]] && echo -e ${TRIGGER}
     
-    # Check if health check was found and update report
+    # Check if trigger was found and update report
     if [ ! -z ${TRIGGER} ]; then
         echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
         update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
@@ -149,13 +149,13 @@ function get-pipelinerun-success() {
     SEARCHVAL=${4}
     DEBUG=false
     
-    # Get health check
+    # Get pipelinerun success
     PIPELINE_SUCCESS=$(oc get PipelineRun -n ${PROJECTNAME} | grep ${SEARCHVAL} | awk '{print $2}' )
     
-    # Debug HEALTH_CHECK variable definition
+    # Debug PIPELINE_SUCCESS variable definition
     [[ "$DEBUG" == true ]] && echo -e ${PIPELINE_SUCCESS}
     
-    # Check if health check was found and update report
+    # Check if pipeline was a success and update report
     if [ "${PIPELINE_SUCCESS}" = "True" ]; then
         echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
         update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
@@ -172,13 +172,13 @@ function check-template-exists() {
     SEARCHVAL=${4}
     DEBUG=false
     
-    # Get health check
+    # Get template
     TEMPLATE=$(oc get template -n ${PROJECTNAME} | grep ${SEARCHVAL} | awk '{print $1}' )
     
-    # Debug HEALTH_CHECK variable definition
+    # Debug TEMPLATE variable definition
     [[ "$DEBUG" == true ]] && echo -e ${TEMPLATE}
     
-    # Check if health check was found and update report
+    # Check if template was found and update report
     if [ ! -z ${TEMPLATE} ]; then
         echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
         update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
