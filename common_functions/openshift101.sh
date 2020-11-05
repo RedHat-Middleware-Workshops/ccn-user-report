@@ -5,7 +5,7 @@
 
 function openshift101-started(){
     USERNAME=${1}
-    USERLANG=${2:-java}
+    USERLANG=${2:-}
     DEBUG=false
     
     # Get all pods in running state with prefix
@@ -77,7 +77,7 @@ function get-rolebinding() {
     USERNAME=${1}
     PROJECTNAME=${2}
     MESSAGE=${3}
-    SEARCHVAL=${4:-view}
+    SEARCHVAL=${4:-}
     DEBUG=false
     
     # Get user role bindings
@@ -100,7 +100,7 @@ function get-nationalparks-health-check() {
     USERNAME=${1}
     PROJECTNAME=${2}
     MESSAGE=${3}
-    SEARCHVAL=${4:-readinessProbe}
+    SEARCHVAL=${4:-}
     DEBUG=false
     
     # Get health check
@@ -110,12 +110,80 @@ function get-nationalparks-health-check() {
     [[ "$DEBUG" == true ]] && echo -e ${HEALTH_CHECK}
     
     # Check if health check was found and update report
-    if [ ! -z ${ROLE} ]; then
+    if [ ! -z ${HEALTH_CHECK} ]; then
         echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
         update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
     else
         echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
         update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
     fi
+}
+
+function get-nationalparks-trigger() {
+    USERNAME=${1}
+    PROJECTNAME=${2}
+    MESSAGE=${3}
+    SEARCHVAL=${4:-}
+    DEBUG=false
     
+    # Get health check
+    TRIGGER=$(oc get dc/nationalparks -n ${PROJECTNAME} -o yaml | grep ${SEARCHVAL} | awk '{print $1}' )
+    
+    # Debug HEALTH_CHECK variable definition
+    [[ "$DEBUG" == true ]] && echo -e ${TRIGGER}
+    
+    # Check if health check was found and update report
+    if [ ! -z ${TRIGGER} ]; then
+        echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
+    else
+        echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
+    fi
+}
+
+function get-pipelinerun-success() {
+    USERNAME=${1}
+    PROJECTNAME=${2}
+    MESSAGE=${3}
+    SEARCHVAL=${4:-}
+    DEBUG=false
+    
+    # Get health check
+    PIPELINE_SUCCESS=$(oc get PipelineRun -n ${PROJECTNAME} | grep ${SEARCHVAL} | awk '{print $2}' )
+    
+    # Debug HEALTH_CHECK variable definition
+    [[ "$DEBUG" == true ]] && echo -e ${PIPELINE_SUCCESS}
+    
+    # Check if health check was found and update report
+    if [ "${PIPELINE_SUCCESS}" = "True" ]; then
+        echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
+    else
+        echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
+    fi
+}
+
+function check-template-exists() {
+    USERNAME=${1}
+    PROJECTNAME=${2}
+    MESSAGE=${3}
+    SEARCHVAL=${4:-}
+    DEBUG=false
+    
+    # Get health check
+    TEMPLATE=$(oc get template -n ${PROJECTNAME} | grep ${SEARCHVAL} | awk '{print $1}' )
+    
+    # Debug HEALTH_CHECK variable definition
+    [[ "$DEBUG" == true ]] && echo -e ${TEMPLATE}
+    
+    # Check if health check was found and update report
+    if [ "${TEMPLATE}" = "True" ]; then
+        echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
+    else
+        echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
+    fi
 }
