@@ -104,7 +104,7 @@ function get-nationalparks-health-check() {
     DEBUG=false
     
     # Get health check
-    HEALTH_CHECK=$(oc get dc/nationalparks -n ${PROJECTNAME} -o yaml | grep ${SEARCHVAL} | awk '{print $1}' | grep '^${SEARCHVAL}:$' )
+    HEALTH_CHECK="$(oc get dc/nationalparks -n ${PROJECTNAME} -o yaml | grep ${SEARCHVAL} | awk '{print $1}' | grep ^${SEARCHVAL}:$ )"
     
     # Debug HEALTH_CHECK variable definition
     [[ "$DEBUG" == true ]] && echo -e ${HEALTH_CHECK}
@@ -179,7 +179,7 @@ function check-template-exists() {
     [[ "$DEBUG" == true ]] && echo -e ${TEMPLATE}
     
     # Check if health check was found and update report
-    if [ "${TEMPLATE}" = "True" ]; then
+    if [ ! -z ${TEMPLATE} ]; then
         echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
         update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
     else
