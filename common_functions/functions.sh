@@ -210,6 +210,9 @@ function run_modules(){
     container-check $USER_NAME mongodb-nationalparks-[0-9] $USER_NAME "Lab 12 - Adding a Database" "build\|deploy"
     get-nationalparks-health-check $USER_NAME $USER_NAME "Lab 13 - 1 Application Health Readiness Probe" "readinessProbe"
     get-nationalparks-health-check $USER_NAME $USER_NAME "Lab 13 - 2 Application Health Liveness Probe" "livenessProbe"
+    get-nationalparks-trigger $USER_NAME $USER_NAME "Lab 14 - Trigger Automatic Rebuilds on Code Changes" "automatic"
+    get-pipelinerun-success $USER_NAME $USER_NAME "Lab 15 - Automation for Your Application on Code Changes" "nationalparks"
+    check-template-exists $USER_NAME $USER_NAME "Lab 17 - Using Application Templates" "mlbparks"
     ;;
 
   *)
