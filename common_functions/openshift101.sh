@@ -95,3 +95,27 @@ function get-rolebinding() {
         update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
     fi
 }
+
+function get-nationalparks-health-check() {
+    USERNAME=${1}
+    PROJECTNAME=${2}
+    MESSAGE=${3}
+    SEARCHVAL=${4:-readinessProbe}
+    DEBUG=false
+    
+    # Get health check
+    HEALTH_CHECK=$(oc get dc/nationalparks -n ${PROJECTNAME} -o yaml | grep ${SEARCHVAL} | awk '{print $1}' | grep '^${SEARCHVAL}:$' )
+    
+    # Debug HEALTH_CHECK variable definition
+    [[ "$DEBUG" == true ]] && echo -e ${HEALTH_CHECK}
+    
+    # Check if health check was found and update report
+    if [ ! -z ${ROLE} ]; then
+        echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
+    else
+        echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
+        update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
+    fi
+    
+}
