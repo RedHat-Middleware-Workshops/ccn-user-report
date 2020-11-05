@@ -207,7 +207,9 @@ function run_modules(){
     app-is-accessible-from-browser $USER_NAME $USER_NAME "Lab 7 - Exposing Your Application to the Outside World" "parksmap"
     get-rolebinding $USER_NAME $USER_NAME "Lab 9 - Role-Based Access Control" "view"
     container-check $USER_NAME nationalparks-[0-9] $USER_NAME "Lab 11 - Deploying National Parks Code" "build\|deploy"
-    container-check $USER_NAME mongodb-nationalparks-[0-9] $USER_NAME "Lab 12 - Adding a Database (MongoDB)" "build\|deploy"
+    container-check $USER_NAME mongodb-nationalparks-[0-9] $USER_NAME "Lab 12 - Adding a Database" "build\|deploy"
+    get-nationalparks-health-check $USER_NAME $USER_NAME "Lab 13 - 1 Application Health Readiness Probe" "readinessProbe"
+    get-nationalparks-health-check $USER_NAME $USER_NAME "Lab 13 - 2 Application Health Liveness Probe" "livenessProbe"
     ;;
 
   *)
