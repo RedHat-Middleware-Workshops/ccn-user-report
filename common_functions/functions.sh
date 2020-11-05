@@ -213,6 +213,7 @@ function run_modules(){
     get-nationalparks-trigger $USER_NAME $USER_NAME "Lab 14 - Trigger Automatic Rebuilds on Code Changes" "automatic"
     get-pipelinerun-success $USER_NAME $USER_NAME "Lab 15 - Automation for Your Application on Code Changes" "nationalparks"
     check-template-exists $USER_NAME $USER_NAME "Lab 17 - Using Application Templates" "mlbparks"
+    container-check $USER_NAME mlbparks-[0-9] $USER_NAME "Lab 18 - Binary Builds for Day to Day Development" "build\|deploy"
     ;;
 
   *)
