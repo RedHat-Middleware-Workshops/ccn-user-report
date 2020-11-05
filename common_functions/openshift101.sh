@@ -5,7 +5,7 @@
 
 function openshift101-started(){
     USERNAME=${1}
-    USERLANG=${2:-}
+    USERLANG=${2}
     DEBUG=false
     
     # Get all pods in running state with prefix
@@ -77,7 +77,7 @@ function get-rolebinding() {
     USERNAME=${1}
     PROJECTNAME=${2}
     MESSAGE=${3}
-    SEARCHVAL=${4:-}
+    SEARCHVAL=${4}
     DEBUG=false
     
     # Get user role bindings
@@ -100,7 +100,7 @@ function get-nationalparks-health-check() {
     USERNAME=${1}
     PROJECTNAME=${2}
     MESSAGE=${3}
-    SEARCHVAL=${4:-}
+    SEARCHVAL=${4}
     DEBUG=false
     
     # Get health check
@@ -123,7 +123,7 @@ function get-nationalparks-trigger() {
     USERNAME=${1}
     PROJECTNAME=${2}
     MESSAGE=${3}
-    SEARCHVAL=${4:-}
+    SEARCHVAL=${4}
     DEBUG=false
     
     # Get health check
@@ -146,7 +146,7 @@ function get-pipelinerun-success() {
     USERNAME=${1}
     PROJECTNAME=${2}
     MESSAGE=${3}
-    SEARCHVAL=${4:-}
+    SEARCHVAL=${4}
     DEBUG=false
     
     # Get health check
@@ -169,7 +169,7 @@ function check-template-exists() {
     USERNAME=${1}
     PROJECTNAME=${2}
     MESSAGE=${3}
-    SEARCHVAL=${4:-}
+    SEARCHVAL=${4}
     DEBUG=false
     
     # Get health check
