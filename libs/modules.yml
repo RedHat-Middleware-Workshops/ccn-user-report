@@ -93,4 +93,4 @@ openshift101:
   - Lab 14 - Trigger Automatic Rebuilds on Code Changes
   - Lab 15 - Automation for Your Application on Code Changes
   - Lab 17 - Using Application Templates
-  # - Lab 20 - Binary Builds for Day to Day Development
+  - Lab 18 - Binary Builds for Day to Day Development
