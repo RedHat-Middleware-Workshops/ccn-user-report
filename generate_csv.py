@@ -66,6 +66,9 @@ def generateuserheading(module_type):
   elif module_type == "module4":
     for modulelist in settings['module4']:
       List.append(modulelist)
+  elif module_type == "openshift101":
+    for modulelist in settings['openshift101']:
+      List.append(modulelist)
   else:
     sys.exit("Incorrect Module passed '"+ module_type + "' is invalid.")
   return List
@@ -85,6 +88,9 @@ def generatelist(module_type):
       List.append(modulelist)
   elif module_type == "module4":
     for modulelist in settings['module4']:
+      List.append(modulelist)
+  elif module_type == "openshift101":
+    for modulelist in settings['openshift101']:
       List.append(modulelist)
   else:
     sys.exit("Incorrect Module passed '"+ module_type + "' is invalid.")

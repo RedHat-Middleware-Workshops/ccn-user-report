@@ -8,7 +8,6 @@ function userlist(){
     done < $filename
 }
 
-
 function logincheck(){
     if [ "${1}" ];
     then
@@ -197,6 +196,24 @@ function run_modules(){
     pipeline-build-attempted $USER_NAME ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - build-and-deploy pipeline  was attempted." build-and-deploy
     container-check $USER_NAME vote-api ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - vote-api application was deployed to OpenShift." "build\|deploy"
     container-check $USER_NAME vote-ui ${USER_NAME}-cloudnative-pipeline "Module 4 - 5 - Evolving to Serverless Services - vote-ui application was deployed to OpenShift." "build\|deploy"
+    ;;
+
+  openshift101)
+    openshift101-started $USER_NAME java
+    openshift101-started $USER_NAME php
+    openshift101-started $USER_NAME python
+    openshift101-started $USER_NAME javascript
+    container-check $USER_NAME parksmap-[0-9] $USER_NAME "Lab 5 - Deploying Your First Container Image" "build\|deploy"
+    app-is-accessible-from-browser $USER_NAME $USER_NAME "Lab 7 - Exposing Your Application to the Outside World" "parksmap"
+    get-rolebinding $USER_NAME $USER_NAME "Lab 9 - Role-Based Access Control" "view"
+    container-check $USER_NAME nationalparks-[0-9] $USER_NAME "Lab 11 - Deploying National Parks Code" "build\|deploy"
+    container-check $USER_NAME mongodb-nationalparks-[0-9] $USER_NAME "Lab 12 - Adding a Database" "build\|deploy"
+    get-nationalparks-health-check $USER_NAME $USER_NAME "Lab 13 - 1 Application Health Readiness Probe" "readinessProbe"
+    get-nationalparks-health-check $USER_NAME $USER_NAME "Lab 13 - 2 Application Health Liveness Probe" "livenessProbe"
+    get-nationalparks-trigger $USER_NAME $USER_NAME "Lab 14 - Trigger Automatic Rebuilds on Code Changes" "automatic"
+    get-pipelinerun-success $USER_NAME $USER_NAME "Lab 15 - Automation for Your Application on Code Changes" "nationalparks"
+    check-template-exists $USER_NAME $USER_NAME "Lab 17 - Using Application Templates" "mlbparks"
+    container-check $USER_NAME mlbparks-[0-9] $USER_NAME "Lab 18 - Binary Builds for Day to Day Development" "build\|deploy"
     ;;
 
   *)
