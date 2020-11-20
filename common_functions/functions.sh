@@ -108,7 +108,6 @@ function run_modules(){
 
   module1)
     module1-started $USER_NAME
-    [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  loggedin-to-codeready $USER_NAME "Module 1 - 3 Migrate to JBoss EAP"
     [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  codeready-git-clone-status $USER_NAME "Module 1 - 3 Migrate to JBoss EAP" "cloud-native-workshop-v2m1-labs"
     [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  codeready-build-status $USER_NAME monolith
     project-created $USER_NAME ${USERNAME}-coolstore-dev "Module 1 - 3 Migrate to JBoss EAP  - CoolStore project Exists in OpenShift"

@@ -106,7 +106,7 @@ def readyaml(module_type):
 
 def userreport(module_type, verbose):
   #report=glob.glob("reports/*")
-  report=sorted(glob.glob("reports/*"),key=os.path.getmtime)
+  report=sorted(glob.glob("workspace/*"),key=os.path.getmtime)
   modules=readyaml(module_type)
   for user in report:
     print("USERNAME: "+str(os.path.split(user)[1]))

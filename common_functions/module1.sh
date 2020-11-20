@@ -24,10 +24,8 @@ function codeready-git-clone-status(){
   MESSAGE=${2}
   SOURCE_CODE=${3}
   
-  CODEREADYLOGIN=$(oc get pods -n labs-infra | grep codeready-  | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
-  WORKSTATIONID=$(oc logs ${CODEREADYLOGIN}  -n labs-infra | grep ${USERNAME} | grep -o -P 'workspace.[a-z0-9]{15}' | head -1)
-  CODEREADYNAMESPACE=$(oc get pods --all-namespaces | grep ${WORKSTATIONID}  | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
-  CODEREADYCONTAINER=$(oc get pods --all-namespaces | grep ${WORKSTATIONID}  | grep -v  'deploy\|build|\|operator' | awk '{print $2}')
+  CODEREADYNAMESPACE=${USERNAME}-che
+  CODEREADYCONTAINER=$(oc get pods -n $CODEREADYNAMESPACE | tail -1 | awk '{print $1}')
   THEIACONTAINER=$(oc describe pod ${CODEREADYCONTAINER} -n ${CODEREADYNAMESPACE} | grep -E theia-ide[a-z0-9]{3} | tr -d ":" | head -1 | awk '{print $2}')
   oc exec -it ${CODEREADYCONTAINER}  -n ${CODEREADYNAMESPACE} -c ${THEIACONTAINER} -- ls /projects/${SOURCE_CODE} > ~/tmp/result.log
   if cat ~/tmp/result.log | grep -q "README.md"
@@ -44,13 +42,12 @@ function codeready-git-clone-status(){
 function codeready-build-status(){
   #oc exec -it workspacevcrfmajrels996ep.quarkus-tools-d88b6d4c5-4rl9t  -n labs-infra -c theia-idedum ls /projects/cloud-native-workshop-v2m1-labs/monolith/target
   #
-  CODEREADYLOGIN=$(oc get pods -n labs-infra | grep codeready-  | grep -v  'deploy\|build|\|operator'| awk '{print $1}')
   USERNAME=${1}
   APP=${2}
-  WORKSTATIONID=$(oc logs ${CODEREADYLOGIN}  -n labs-infra | grep ${USERNAME} | grep -o -P 'workspace.[a-z0-9]{15}' | head -1)
-  CODEREADYCONTAINER=$(oc get pods -n labs-infra | grep ${WORKSTATIONID}  | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
-  THEIACONTAINER=$(oc describe pod ${CODEREADYCONTAINER} -n labs-infra | grep -E theia-ide[a-z0-9]{3} | tr -d ":" | head -1 | awk '{print $2}')
-  RESULT=$(oc exec -it ${CODEREADYCONTAINER}  -n labs-infra -c ${THEIACONTAINER} ls /projects/cloud-native-workshop-v2m1-labs/${APP}/target > ~/tmp/result.log)
+  CODEREADYNAMESPACE=${USERNAME}-che
+  CODEREADYCONTAINER=$(oc get pods -n $CODEREADYNAMESPACE | tail -1 | awk '{print $1}')
+  THEIACONTAINER=$(oc describe pod ${CODEREADYCONTAINER} -n ${CODEREADYNAMESPACE} | grep -E theia-ide[a-z0-9]{3} | tr -d ":" | head -1 | awk '{print $2}')
+  RESULT=$(oc exec -it ${CODEREADYCONTAINER}  -n ${CODEREADYNAMESPACE} -c ${THEIACONTAINER} ls /projects/cloud-native-workshop-v2m1-labs/${APP}/target > ~/tmp/result.log)
 
   case $APP in
   monolith)

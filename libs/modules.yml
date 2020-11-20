@@ -1,6 +1,5 @@
 module1:
   - Module 1 - 2 Getting Started with Application Migration Toolkit
-  - Module 1 - 3 Migrate to JBoss EAP - Logged into CodeReady Workspaces
   - Module 1 - 3 Migrate to JBoss EAP - Git Clone Completed
   - Module 1 - 3 Migrate to JBoss EAP - Monolith Build Attempted
   - Module 1 - 3 Migrate to JBoss EAP - CoolStore project Exists in OpenShift
