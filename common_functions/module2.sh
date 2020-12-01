@@ -6,8 +6,7 @@
 function module2-started(){
     MODULE2_GUIDE=$(oc get pods -n labs-infra | grep guides-m2-  | grep -v 'deploy\|build'| awk '{print $1}')
     USERNAME=${1}
-    echo -e ${MODULE2_GUIDE}
-    oc logs ${MODULE2_GUIDE} -n labs-infra | grep -o ${USERNAME} | tee ~/tmp/result.log
+    oc logs ${MODULE2_GUIDE} -n labs-infra | grep -o ${USERNAME} > ~/tmp/result.log
     if cat ~/tmp/result.log | grep -q "${USERNAME}"
     then
        echo -e "\e[0;32m${USERNAME} has started Module 2 - 1 Your Workshop Environment\e[0m"
@@ -21,7 +20,7 @@ function module2-started(){
 
 function monolith-pipelines-staged(){
   USERNAME=${1}
-  oc describe bc/monolith-pipeline -n ${USERNAME}-coolstore-prod | grep -o JenkinsPipeline | tee ~/tmp/result.log
+  oc describe bc/monolith-pipeline -n ${USERNAME}-coolstore-prod | grep -o JenkinsPipeline > ~/tmp/result.log
   if cat ~/tmp/result.log | grep -q "JenkinsPipeline"
     then
        echo -e "\e[0;32m${USERNAME} has started Module 2 - 3 - Implementing Continuous Delivery - monolith-pipeline has been staged\e[0m"
@@ -51,30 +50,18 @@ function pipeline-build-status(){
 
 
 function codeready-build-status-m2(){
-  #oc exec -it workspacevcrfmajrels996ep.quarkus-tools-d88b6d4c5-4rl9t  -n labs-infra -c theia-idedum ls /projects/cloud-native-workshop-v2m1-labs/monolith/target
-  #
-  CODEREADYLOGIN=$(oc get pods -n labs-infra | grep codeready- | grep -v  'deploy\|build|\|operator' | awk '{print $1}')
   USERNAME=${1}
   APP=${2}
-  WORKSTATIONID=$(oc logs ${CODEREADYLOGIN}  -n labs-infra | grep ${USERNAME} | grep -o -P 'workspace.[a-z0-9]{15}' | head -1)
-  CODEREADYCONTAINER=$(oc get pods -n labs-infra | grep ${WORKSTATIONID} | grep -v  'deploy\|build|\|operator'| awk '{print $1}')
-  THEIACONTAINER=$(oc describe pod ${CODEREADYCONTAINER} -n labs-infra | grep -E theia-ide[a-z0-9]{3} | tr -d ":" | head -1 | awk '{print $2}')
-  oc exec -it ${CODEREADYCONTAINER}  -n labs-infra -c ${THEIACONTAINER} ls /projects/cloud-native-workshop-v2m2-labs/${APP}/target | tee ~/tmp/result.log
 
   case $APP in
-  monolith)
-    APPNAME=Monolith
-    COMPAREWITH=ROOT.war
-    MODULENAME="3 Migrate to JBoss EAP"
-    ;;
   catalog)
-    APPNAME=Catalog
-    COMPAREWITH=catalog-1.0.0-SNAPSHOT.jar
+    codeready-exec $USERNAME "ls /projects/cloud-native-workshop-v2m2-labs/catalog/target/catalog-1.0.0-SNAPSHOT.jar2"
+    STATUS=$?
     MODULENAME="4 Break Monolith Apart - II"
     ;;
   inventory)
-    APPNAME=Inventory
-    COMPAREWITH=inventory-1.0-SNAPSHOT-runner.jar
+    codeready-exec $USERNAME "ls /projects/cloud-native-workshop-v2m2-labs/inventory/target/inventory-1.0-SNAPSHOT-runner.jar"
+    STATUS=$?
     MODULENAME="4 Debugging Applications"
     ;;
   *)
@@ -82,17 +69,28 @@ function codeready-build-status-m2(){
     ;;
   esac
 
-  if cat ~/tmp/result.log | grep -q "$COMPAREWITH"
+  if [ $STATUS -eq 0 ]
   then
-     echo -e "\e[0;32m${USERNAME} has attempted to build  - ${MODULENAME} - ${APPNAME}\e[0m"
-    update-report  ${USERNAME}  "Module 2 - ${MODULENAME} - ${APPNAME} Build Attempted"  "TRUE"
+     echo -e "\e[0;32m${USERNAME} has attempted to build  - ${MODULENAME} - ${APP}\e[0m"
+    update-report  ${USERNAME}  "Module 2 - ${MODULENAME} - ${APP} Build Attempted"  "TRUE"
   else 
-     echo -e "\e[0;31m${USERNAME} has not attempted to build ${MODULENAME} - ${APPNAME}\e[0m"
-    update-report  ${USERNAME}  "Module 2 - ${MODULENAME} - ${APPNAME} Build Attempted"   "FALSE"
+     echo -e "\e[0;31m${USERNAME} has not attempted to build ${MODULENAME} - ${APP}\e[0m"
+    update-report  ${USERNAME}  "Module 2 - ${MODULENAME} - ${APP} Build Attempted"   "FALSE"
   fi
-  rm ~/tmp/result.log
 }
 
+function last-letter-check() {
+  USERNAME=${1}
+  
+  if codeready-exec $USERNAME "grep lastLetter cloud-native-workshop-v2m2-labs/inventory/src/main/java/com/redhat/coolstore/InventoryResource.java" lastLetter
+  then
+    echo -e "\e[0;32m${USERNAME} Module 2 - 4 Debugging Applications - lastLetter method created.\e[0m"
+    update-report  ${USERNAME}  "Module 2 - 4 Debugging Applications - lastLetter method created."  "TRUE"
+  else
+    echo -e "\e[0;31m${USERNAME} has not completed 4 Debugging Applications - lastLetter method created.\e[0m"
+    update-report  ${USERNAME}  "Module 2 - 4 Debugging Applications - lastLetter method created."  "FALSE"
+  fi
+}
 
 function promethous-configmap-check(){
     USERNAME=${1}

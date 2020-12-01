@@ -12,7 +12,6 @@ module1:
   - Module 1 - 4 Break Monolith Apart - II - catalog application is accessible from the browser.
 module2:
   - Module 2 - 1 Your Workshop Environment
-  - Module 2 - 2 Advanced Cloud-Native Services - Logged into CodeReady Workspaces
   - Module 2 - 2 Advanced Cloud-Native Services - Git Clone Completed
   - Module 2 - 2 Advanced Cloud-Native Services - CoolStore application successfully deployed on OpenShift
   - Module 2 - 2 Advanced Cloud-Native Services - inventory application is accessible from the browser.
@@ -21,7 +20,8 @@ module2:
   - Module 2 - 3 - Implementing Continuous Delivery - monolith-pipeline has been staged
   - Module 2 - 3 Advanced Cloud-Native Services - Jenkins ephemeral Container has started.
   - Module 2 - 3 - Implementing Continuous Delivery - monolith-pipeline First pipeline build  Completed
-  - Module 2 - 4 Debugging Applications - Inventory Build Attempted
+  - Module 2 - 4 Debugging Applications - inventory Build Attempted
+  - Module 2 - 4 Debugging Applications - lastLetter method created.
   - Module 2 - 5 Application Monitoring  - userX-monitoring project Exists in OpenShift
   - Module 2 - 5 Application Monitoring - jaeger-all-in-one-inmemory deployed.
   - Module 2 - 5 Application Monitoring - prometheus container was deployed.
