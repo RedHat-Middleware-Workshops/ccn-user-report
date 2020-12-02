@@ -100,31 +100,30 @@ function app-is-accessible-from-browser(){
       ENDPOINT="${ENDPOINT}/productpage"
     fi
 
-      status_code=$(curl --write-out %{http_code} --silent --output /dev/null ${ENDPOINT})
-      if [[ "$status_code" -eq 200 ]] ; then
-        echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
-        update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
-      else
-        echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
-        update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
-      fi
+    status_code=$(curl --write-out %{http_code} --silent --output /dev/null ${ENDPOINT})
+    if [[ "$status_code" -eq 200 ]] ; then
+      echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
+      update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
+    else
+      echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
+      update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
+    fi
   elif [ $SEARCHVAL ==  "istio-ingressgateway-catalog" ]
-    then
-      ENDPOINT=$(oc get route -n ${PROJECTNAME} | grep istio-ingressgateway  | awk '{print $2}')
-      ENDPOINT="${ENDPOINT}/services/products"
-      status_code=$(curl --write-out %{http_code} --silent --output /dev/null ${ENDPOINT})
-        if [[ "$status_code" -eq 401 ]]; then 
-          echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
-          update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
-        else
-          echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
-          update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
-        fi
+  then
+    ENDPOINT=$(oc get route -n ${PROJECTNAME} | grep istio-ingressgateway  | awk '{print $2}')
+    ENDPOINT="${ENDPOINT}/services/products"
+    status_code=$(curl --write-out %{http_code} --silent --output /dev/null ${ENDPOINT})
+    if [[ "$status_code" -eq 401 ]]; then 
+      echo -e "\e[0;32m${USERNAME} has completed ${MESSAGE}\e[0m"
+      update-report  ${USERNAME}  "${MESSAGE}"  "TRUE"
+    else
+      echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
+      update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
+    fi
   else
     echo -e "\e[0;31m${USERNAME} has not completed  ${MESSAGE}\e[0m"
     update-report  ${USERNAME}   "${MESSAGE}"  "FALSE"
   fi
-
 }
 
 function container-input-check(){

@@ -124,7 +124,6 @@ function run_modules(){
 
   module2)
     module2-started $USER_NAME
-    [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  loggedin-to-codeready $USER_NAME  "Module 2 - 2 Advanced Cloud-Native Services"
     [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  codeready-git-clone-status $USER_NAME  "Module 2 - 2 Advanced Cloud-Native Services" "cloud-native-workshop-v2m2-labs"
     app-is-accessible-from-browser $USER_NAME $USER_NAME-coolstore-dev "Module 2 - 2 Advanced Cloud-Native Services - CoolStore application successfully deployed on OpenShift" "www-${USER_NAME}-coolstore-dev"
     app-is-accessible-from-browser ${USER_NAME} ${USER_NAME}-inventory "Module 2 - 2 Advanced Cloud-Native Services - inventory application is accessible from the browser." "inventory"
@@ -134,6 +133,7 @@ function run_modules(){
     container-check $USER_NAME jenkins-[0-9] ${USER_NAME}-coolstore-prod "Module 2 - 3 Advanced Cloud-Native Services - Jenkins ephemeral Container has started." "build\|deploy"
     pipeline-build-status  $USER_NAME "First pipeline build"
     [ ${SKIP_CODE_READY_CHECKS} == FALSE ] &&  codeready-build-status-m2 $USERNAME inventory
+    [ ${SKIP_CODE_READY_CHECKS} == FALSE ] && last-letter-check $USERNAME
     project-created ${USER_NAME} ${USERNAME}-monitoring "Module 2 - 5 Application Monitoring  - userX-monitoring project Exists in OpenShift"
     container-check $USER_NAME "jaeger-all-in-one-inmemory" ${USER_NAME}-monitoring "Module 2 - 5 Application Monitoring - jaeger-all-in-one-inmemory deployed." "build\|deploy"
     container-check $USER_NAME "prometheus" ${USER_NAME}-monitoring "Module 2 - 5 Application Monitoring - prometheus container was deployed." "build\|deploy"
@@ -253,4 +253,25 @@ function project-created(){
       update-report  ${USERNAME}  "${MESSAGE}"  "FALSE"
     fi
     rm ~/tmp/result.log
+}
+
+function codeready-exec(){
+# Executes a given command inside the codeready container for this user.
+  USERNAME=${1}
+  COMMAND=${2}
+  PATTERN=${3}
+
+  CODEREADYNAMESPACE=${USERNAME}-che
+  CODEREADYCONTAINER=$(oc get pods -n $CODEREADYNAMESPACE | tail -1 | awk '{print $1}')
+  THEIACONTAINER=$(oc describe pod ${CODEREADYCONTAINER} -n ${CODEREADYNAMESPACE} | grep -E theia-ide[a-z0-9]{3} | tr -d ":" | head -1 | awk '{print $2}')
+
+  oc exec -it ${CODEREADYCONTAINER}  -n ${CODEREADYNAMESPACE} -c ${THEIACONTAINER} -- ${COMMAND} > ~/tmp/result.log
+  STATUS=$?
+  if [ ${PATTERN} ]
+  then
+    cat ~/tmp/result.log | grep -q ${PATTERN}
+    STATUS=$?
+  fi
+  rm ~/tmp/result.log
+  return $STATUS
 }
