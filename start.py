@@ -208,7 +208,7 @@ def export_csv(modulenum):
   #only by sending this page first will the client be connected to the socketio instance
   try:
     app.logger.info(str(generate_csv_flask.main(escape(modulenum), False)))
-    return send_file('/opt/app-root/src/workspace/report.csv', as_attachment=True)
+    return send_file('/opt/app-root/src/workspace/report.csv', as_attachment=True, cache_timeout=0)
   except:
     app.logger.warning('Failed to call export_csv function: ')
     return 'Failed to genereate csv file. Please run report before calling this function.'
@@ -219,7 +219,7 @@ def export_json(modulenum):
   #only by sending this page first will the client be connected to the socketio instance
   try:
     app.logger.info(str(generate_csv_flask.main(escape(modulenum), False)))
-    return send_file('/opt/app-root/src/workspace/report.json', as_attachment=True)
+    return send_file('/opt/app-root/src/workspace/report.json', as_attachment=True, cache_timeout=0)
   except:
     app.logger.warning('Failed to call export_json function: ')
     return 'Failed to genereate json file. Please run report before calling this function.'
