@@ -115,6 +115,8 @@ def userreport(module_type, verbose):
   report=sorted(glob.glob("workspace/*"),key=os.path.getmtime)
   modules=readyaml(module_type)
   for user in report:
+    if user == "workspace/userlist":
+      continue
     print("USERNAME: "+str(os.path.split(user)[1]))
     generatereport=[]
     generatereport.append(str(os.path.split(user)[1]))
