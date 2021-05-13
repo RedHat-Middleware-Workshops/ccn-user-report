@@ -65,10 +65,15 @@ case $MODULE in
   openshift101)
     echo -e "openshift101 selected\n"
     ;;
+  
+  machinelearning)
+    echo -e "machinelearning selected\n"
+    ;;
+
 
   *)
     echo -e "unknown module selected\n"
-    echo -e "Options: module1, module2, module3, module4, openshift101\n"
+    echo -e "Options: module1, module2, module3, module4, openshift101, machinelearning\n"
     exit $?
     ;;
 esac

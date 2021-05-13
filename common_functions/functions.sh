@@ -215,6 +215,16 @@ function run_modules(){
     container-check $USER_NAME mlbparks-[0-9] $USER_NAME "Lab 18 - Binary Builds for Day to Day Development" "build\|deploy"
     ;;
 
+  machinelearning)
+    container-check $USER_NAME "jupyterhub" ${USERNAME}-notebooks "Lab 1 - Deploy Open Data Hub"
+    container-check $USER_NAME "jupyterhub-nb" ${USERNAME}-notebooks "Lab 1 - Launch Jupyter"
+    container-check $USER_NAME "xraylabdb" ${USERNAME}-notebooks "Lab 3 - Deploying the Database"
+    validate-kafka-topic $USER_NAME my-cluster-kafka-0 ${USER_NAME}-notebooks "Lab 3 - Create the Kafka Cluster and Topic" "xray-images"
+    container-check $USER_NAME "image-generator" ${USERNAME}-notebooks "Lab 3 - Deploy the Image Generator"
+    container-check $USER_NAME "image-server" ${USERNAME}-notebooks "Lab 3 - Deploy the Image Server"
+    knative-serving-check $USER_NAME risk-assessment ${USER_NAME}-notebooks "Lab 3 - Deploy the Risk Assessment Service"
+    ;;
+
   *)
     echo -n "unknown module"
     exit $?

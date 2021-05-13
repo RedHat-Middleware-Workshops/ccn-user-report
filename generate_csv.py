@@ -69,6 +69,9 @@ def generateuserheading(module_type):
   elif module_type == "openshift101":
     for modulelist in settings['openshift101']:
       List.append(modulelist)
+  elif module_type == "machinelearning":
+    for modulelist in settings['machinelearning']:
+      List.append(modulelist)
   else:
     sys.exit("Incorrect Module passed '"+ module_type + "' is invalid.")
   return List
@@ -92,6 +95,9 @@ def generatelist(module_type):
   elif module_type == "openshift101":
     for modulelist in settings['openshift101']:
       List.append(modulelist)
+  elif module_type == "machinelearning":
+    for modulelist in settings['machinelearning']:
+      List.append(modulelist)
   else:
     sys.exit("Incorrect Module passed '"+ module_type + "' is invalid.")
   return List
@@ -109,6 +115,8 @@ def userreport(module_type, verbose):
   report=sorted(glob.glob("workspace/*"),key=os.path.getmtime)
   modules=readyaml(module_type)
   for user in report:
+    if user == "workspace/userlist":
+      continue
     print("USERNAME: "+str(os.path.split(user)[1]))
     generatereport=[]
     generatereport.append(str(os.path.split(user)[1]))
